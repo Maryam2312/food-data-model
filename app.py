@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 
 def cleaning(data):
+   data = data.replace({None: np.nan})
+
    data['Feedback'] = data['Feedback'].apply(lambda x: 'Positive' if 'P' in str(x) or 'p' in str(x) else x)
    data['Feedback'] = data['Feedback'].apply(lambda x: 'Negative' if 'N' in str(x) or 'n' in str(x) else x)
    data['Feedback'] = data['Feedback'].apply(lambda x:  np.nan if x != 'Positive' and x != 'Negative' else x)
@@ -16,7 +18,7 @@ def cleaning(data):
 
 
 try:
-    with open('Voting_model80.pkl', 'rb') as f:
+    with open('Voting_model92.pkl', 'rb') as f:
         food_pipeline = joblib.load(f)
 except Exception as err:
     print(f"Unexpected error: {err}, Type: {type(err)}")
@@ -42,9 +44,9 @@ def predict():
 
         return jsonify({'Prediction: ': predictions.tolist()})
     except Exception as err:
-        return jsonify({"Unexpected error: ": str(err)})
+        return jsonify({"error: ": str(err)})
 
 
 
 if __name__ == '__main__':
-    app.run(debug = True, port=8080, host="0.0.0.0")
+    app.run(debug = True)#, port=8080, host="0.0.0.0")
