@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import joblib
 import pandas as pd
 import numpy as np
@@ -25,6 +26,7 @@ except Exception as err:
 
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def home():
